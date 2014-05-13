@@ -252,6 +252,9 @@
 {
     self.title = title;
     self.confirm = confirm;
+    if (!self.colorLayer) {
+        [self setupLayers];
+    }
     [self setNeedsDisplay];
 }
 
