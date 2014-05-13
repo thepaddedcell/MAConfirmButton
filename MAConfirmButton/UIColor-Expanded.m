@@ -401,7 +401,7 @@ static NSLock *crayolaNameCacheLock;
 }
 
 - (NSString *)hexStringFromColor {
-	return [NSString stringWithFormat:@"%0.6X", self.rgbHex];
+	return [NSString stringWithFormat:@"%0.6X", (unsigned int)self.rgbHex];
 }
 
 - (NSString *)closestColorNameFor: (const char *) aColorDatabase {
@@ -544,16 +544,6 @@ static NSLock *crayolaNameCacheLock;
 	[crayolaNameCacheLock unlock];
 	return crayolaNameCache;
 }
-
-+ (UIColor *)colorWithHue:(CGFloat)hue saturation:(CGFloat)saturation brightness:(CGFloat)brightness alpha:(CGFloat)alpha {
-	// Convert hsb to rgb
-	CGFloat r,g,b;
-	[self hue:hue saturation:saturation brightness:brightness toRed:&r green:&g blue:&b];
-	
-	// Create a color with rgb
-	return [self colorWithRed:r green:g blue:b alpha:alpha];
-}
-
 
 #pragma mark Color Space Conversions
 
