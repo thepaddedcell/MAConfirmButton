@@ -17,17 +17,12 @@ typedef enum {
 
 } MAConfirmButtonToggleAnimation;
 
-@interface MAConfirmButton : UIButton {
-
-@private
-	BOOL selected;
-	BOOL confirmed;
-	CALayer *colorLayer;
-	CALayer *darkenLayer;
-	UIButton *cancelOverlay;
-}
+@interface MAConfirmButton : UIButton
 
 @property (nonatomic, assign) MAConfirmButtonToggleAnimation toggleAnimation;
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *confirm;
+@property (nonatomic, copy) NSString *disabled;
 
 + (MAConfirmButton *)buttonWithTitle:(NSString *)titleString confirm:(NSString *)confirmString;
 + (MAConfirmButton *)buttonWithDisabledTitle:(NSString *)disabledString;
