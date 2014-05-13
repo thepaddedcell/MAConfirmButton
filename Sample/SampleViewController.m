@@ -45,7 +45,7 @@
   
   MAConfirmButton *tintedButton = [MAConfirmButton buttonWithTitle:@"Tinted" confirm:@"Confirm String"];
   [tintedButton addTarget:self action:@selector(confirmAction:) forControlEvents:UIControlEventTouchUpInside];	
-  [tintedButton setTintColor:[UIColor colorWithRed:0.176 green:0.569 blue:0.820 alpha:1]];
+  [tintedButton setTint:[UIColor colorWithRed:0.176 green:0.569 blue:0.820 alpha:1]];
   [tintedButton setAnchor:CGPointMake(200, 100)];	
   [self.view addSubview:tintedButton];	
   
@@ -61,7 +61,7 @@
   
   resetButton = [MAConfirmButton buttonWithTitle:@"Reset" confirm:@"Are you sure?"];
   [resetButton addTarget:self action:@selector(resetUI) forControlEvents:UIControlEventTouchUpInside];
-  [resetButton setTintColor:[UIColor colorWithRed:0.694 green:0.184 blue:0.196 alpha:1]];
+  [resetButton setTint:[UIColor colorWithRed:0.694 green:0.184 blue:0.196 alpha:1]];
   [resetButton setAnchor:CGPointMake(200, 250)];
   [self.view addSubview:resetButton];
   

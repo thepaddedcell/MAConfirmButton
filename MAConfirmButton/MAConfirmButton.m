@@ -14,7 +14,6 @@
 
 @interface MAConfirmButton ()
 
-@property (nonatomic, retain) UIColor *tint;
 @property (nonatomic, assign) BOOL buttonSelected;
 @property (nonatomic, assign) BOOL confirmed;
 @property (nonatomic, retain) CALayer *colorLayer;
@@ -263,10 +262,10 @@
     self.frame = rect;
 }
 
-- (void)setTintColor:(UIColor *)color {
-    self.tint = [UIColor colorWithHue:color.hue saturation:color.saturation+0.15 brightness:color.brightness alpha:1];
-    self.colorLayer.borderColor = self.tint.CGColor;
-    [self setTitleColor:self.tint forState:UIControlStateNormal];
+- (void)setTint:(UIColor *)color {
+    _tint = [color retain];
+    self.colorLayer.borderColor = color.CGColor;
+    [self setTitleColor:color forState:UIControlStateNormal];
     [self setNeedsDisplay];
 }
 
