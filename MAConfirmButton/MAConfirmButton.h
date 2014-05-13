@@ -29,6 +29,8 @@ typedef enum {
 - (id)initWithTitle:(NSString *)titleString confirm:(NSString *)confirmString;
 - (id)initWithDisabledTitle:(NSString *)disabledString;
 - (void)disableWithTitle:(NSString *)disabledString;
+- (void)setTitle:(NSString *)title andConfirm:(NSString*)confirm;
+
 - (void)setAnchor:(CGPoint)anchor;
 - (void)setTintColor:(UIColor *)color;
 

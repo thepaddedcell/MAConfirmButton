@@ -225,17 +225,16 @@
 
 - (void)setupLayers {
   
-    _colorLayer = [CALayer layer];
-    _colorLayer.backgroundColor = [[UIColor clearColor] CGColor];
-    _colorLayer.frame = CGRectMake(0, 1, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame)-2);
-    _colorLayer.borderColor = self.tint.CGColor;
-    _colorLayer.borderWidth = 1.0;
-    _colorLayer.cornerRadius = 4.0;
-    _colorLayer.needsDisplayOnBoundsChange = YES;
+    self.colorLayer = [CALayer layer];
+    self.colorLayer.backgroundColor = [[UIColor clearColor] CGColor];
+    self.colorLayer.frame = CGRectMake(0, 1, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame)-2);
+    self.colorLayer.borderColor = self.tint.CGColor;
+    self.colorLayer.borderWidth = 1.0;
+    self.colorLayer.cornerRadius = 4.0;
+    self.colorLayer.needsDisplayOnBoundsChange = YES;
 
-    [self.layer addSublayer:_colorLayer];
+    [self.layer addSublayer:self.colorLayer];
     [self bringSubviewToFront:self.titleLabel];
-  
 }
 
 - (void)setButtonSelected:(BOOL)buttonSelected
@@ -248,6 +247,13 @@
 - (void)disableWithTitle:(NSString *)disabledString {
     self.disabled = [disabledString retain];    
     [self toggle];	
+}
+
+- (void)setTitle:(NSString *)title andConfirm:(NSString*)confirm
+{
+    self.title = title;
+    self.confirm = confirm;
+    [self setNeedsDisplay];
 }
 
 - (void)setAnchor:(CGPoint)anchor {
