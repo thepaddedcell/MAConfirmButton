@@ -265,6 +265,7 @@
 				GCC_PREFIX_HEADER = "Sample/Sample-Prefix.pch";
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "Sample/Sample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -279,6 +280,7 @@
 				GCC_PREFIX_HEADER = "Sample/Sample-Prefix.pch";
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "Sample/Sample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
