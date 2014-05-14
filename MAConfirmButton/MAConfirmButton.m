@@ -354,7 +354,7 @@
 }
 
 - (BOOL)isDisabled {
-    return [disabled boolValue];
+    return disabled;
 }
 
 - (void)setConfirmed:(BOOL)isConfirmed
