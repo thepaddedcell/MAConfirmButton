@@ -349,10 +349,12 @@
         cancelOverlay = nil;	
     }	
     self.selected = NO;
+    self.confirmed = NO;
+    [self toggle];
 }
 
 - (BOOL)isDisabled {
-    return disabled;
+    return [disabled boolValue];
 }
 
 - (void)setConfirmed:(BOOL)isConfirmed
