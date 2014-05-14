@@ -348,7 +348,8 @@
     if (cancelOverlay && self.userInteractionEnabled) {
         [cancelOverlay removeFromSuperview];
         cancelOverlay = nil;	
-    }	
+    }
+    disabled = nil;
     buttonSelected = NO;
     confirmed = NO;
     [self toggle];
