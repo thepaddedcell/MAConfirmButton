@@ -40,12 +40,12 @@
 }
 
 + (MAConfirmButton *)buttonWithTitle:(NSString *)titleString confirm:(NSString *)confirmString {
-    MAConfirmButton *button = [[[super alloc] initWithTitle:titleString confirm:confirmString] autorelease];	
+    MAConfirmButton *button = [[[super alloc] initWithTitle:titleString confirm:confirmString] autorelease];
     return button;
 }
 
 + (MAConfirmButton *)buttonWithDisabledTitle:(NSString *)disabledString {
-    MAConfirmButton *button = [[[super alloc] initWithDisabledTitle:disabledString] autorelease];	
+    MAConfirmButton *button = [[[super alloc] initWithDisabledTitle:disabledString] autorelease];
     return button;
 }
 
@@ -53,28 +53,40 @@
     self = [super initWithFrame:CGRectZero];
     if (self != nil) {
         disabled = [disabledString retain];
-
+        
         toggleAnimation = MAConfirmButtonToggleAnimationLeft;
-
+        
         self.layer.needsDisplayOnBoundsChange = YES;
         self.tint = [UIColor colorWithWhite:0.85 alpha:1];
-
+        
         CGSize size = [title sizeWithAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:kFontSize]}];
         CGRect r = self.frame;
         r.size.height = kHeight;
         r.size.width = size.width+kPadding;
         self.frame = r;
-
+        
         [self setTitle:disabled forState:UIControlStateNormal];
         [self setTitleColor:self.tint forState:UIControlStateNormal];
         
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         self.titleLabel.backgroundColor = [UIColor clearColor];
         self.titleLabel.font = [UIFont boldSystemFontOfSize:kFontSize];
-
+        
         [self setupLayers];
-    }	
-    return self;	
+    }
+    return self;
+}
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    toggleAnimation = MAConfirmButtonToggleAnimationLeft;
+    self.layer.needsDisplayOnBoundsChange = YES;
+    
+    self.titleLabel.textAlignment = NSTextAlignmentCenter;
+    self.titleLabel.backgroundColor = [UIColor clearColor];
+    self.titleLabel.font = [UIFont boldSystemFontOfSize:kFontSize];
+    
+    [self setupLayers];
 }
 
 - (id)initWithTitle:(NSString *)titleString confirm:(NSString *)confirmString {
@@ -82,27 +94,27 @@
     if (self != nil) {
         self.title = [titleString retain];
         self.confirm = [confirmString retain];
-
+        
         toggleAnimation = MAConfirmButtonToggleAnimationLeft;
-        self.tint = [UIColor colorWithRed:0.220 green:0.357 blue:0.608 alpha:1];
-
+        tint = [UIColor colorWithRed:0.220 green:0.357 blue:0.608 alpha:1];
+        
         self.layer.needsDisplayOnBoundsChange = YES;
-
+        
         CGSize size = [title sizeWithAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:kFontSize]}];
         CGRect r = self.frame;
         r.size.height = kHeight;
         r.size.width = size.width+kPadding;
         self.frame = r;
-
+        
         [self setTitle:title forState:UIControlStateNormal];
         [self setTitleColor:self.tint forState:UIControlStateNormal];
-
+        
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         self.titleLabel.backgroundColor = [UIColor clearColor];
         self.titleLabel.font = [UIFont boldSystemFontOfSize:kFontSize];
-
+        
         [self setupLayers];
-    }	
+    }
     return self;
 }
 
@@ -110,29 +122,29 @@
     if (self.userInteractionEnabled) {
         self.userInteractionEnabled = NO;
         self.titleLabel.alpha = 0;
-
+        
         CGSize size;
-
+        
         if (disabled) {
             [self setTitle:disabled forState:UIControlStateNormal];
             [self setTitleColor:self.tint forState:UIControlStateNormal];
             size = [disabled sizeWithAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:kFontSize]}];
         } else if (selected) {
-            [self setTitle:confirm forState:UIControlStateNormal];		
+            [self setTitle:confirm forState:UIControlStateNormal];
             size = [confirm sizeWithAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:kFontSize]}];
         } else {
             [self setTitle:title forState:UIControlStateNormal];
             size = [title sizeWithAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:kFontSize]}];
         }
-
+        
         size.width += kPadding;
         float offset = size.width - self.frame.size.width;
-
+        
         [CATransaction begin];
         [CATransaction setAnimationDuration:0.25];
         [CATransaction setCompletionBlock:^{
             //Readjust button frame for new touch area, move layers back now that animation is done
-
+            
             CGRect frameRect = self.frame;
             switch(self.toggleAnimation) {
                 case MAConfirmButtonToggleAnimationLeft:
@@ -148,7 +160,7 @@
             }
             frameRect.size.width = frameRect.size.width + offset;
             self.frame = frameRect;
-
+            
             [CATransaction setDisableActions:YES];
             [CATransaction setCompletionBlock:^{
                 self.userInteractionEnabled = YES;
@@ -167,17 +179,17 @@
                     default:
                         break;
                 }
-
+                
                 layer.frame = rect;
             }
             [CATransaction commit];
-
+            
             self.titleLabel.alpha = 1;
             [self setNeedsLayout];
         }];
-
+        
         UIColor *greenColor = [UIColor colorWithRed:0.439 green:0.741 blue:0.314 alpha:1.];
-
+        
         //Animate color change
         CABasicAnimation *colorAnimation = [CABasicAnimation animationWithKeyPath:@"borderColor"];
         colorAnimation.removedOnCompletion = NO;
@@ -197,45 +209,46 @@
         [self setTitleColor:titleColor forState:UIControlStateNormal];
         
         [colorLayer addAnimation:colorAnimation forKey:@"colorAnimation"];
-
+        
         //Animate layer scaling
         for (CALayer *layer in self.layer.sublayers) {
-        CGRect rect = layer.frame;
-
-        switch(self.toggleAnimation) {
-            case MAConfirmButtonToggleAnimationLeft:
-                rect.origin.x = rect.origin.x-offset;
-                break;
-            case MAConfirmButtonToggleAnimationRight:
-                break;
-            case MAConfirmButtonToggleAnimationCenter:
-                rect.origin.x = rect.origin.x-offset/2.0;
-                break;
-            default:
-                break;
+            CGRect rect = layer.frame;
+            
+            switch(self.toggleAnimation) {
+                case MAConfirmButtonToggleAnimationLeft:
+                    rect.origin.x = rect.origin.x-offset;
+                    break;
+                case MAConfirmButtonToggleAnimationRight:
+                    break;
+                case MAConfirmButtonToggleAnimationCenter:
+                    rect.origin.x = rect.origin.x-offset/2.0;
+                    break;
+                default:
+                    break;
+            }
+            rect.size.width = rect.size.width+offset;
+            layer.frame = rect;
         }
-        rect.size.width = rect.size.width+offset;
-        layer.frame = rect;
-        }
-
+        
         [CATransaction commit];
         [self setNeedsDisplay];
     }
 }
 
 - (void)setupLayers {
-  
+    [colorLayer removeFromSuperlayer];
+    
     colorLayer = [CALayer layer];
     colorLayer.backgroundColor = [[UIColor clearColor] CGColor];
     colorLayer.frame = CGRectMake(0, 1, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame)-2);
     colorLayer.borderColor = tint.CGColor;
     colorLayer.borderWidth = 1.0;
     colorLayer.cornerRadius = 4.0;
-    colorLayer.needsDisplayOnBoundsChange = YES;		
-
+    colorLayer.needsDisplayOnBoundsChange = YES;
+    
     [self.layer addSublayer:colorLayer];
     [self bringSubviewToFront:self.titleLabel];
-  
+    
 }
 
 - (void)setSelected:(BOOL)s {
@@ -244,8 +257,8 @@
 }
 
 - (void)disableWithTitle:(NSString *)disabledString {
-    self.disabled = [disabledString retain];    
-    [self toggle];	
+    self.disabled = [disabledString retain];
+    [self toggle];
 }
 
 - (void)setAnchor:(CGPoint)anchor {
@@ -255,10 +268,29 @@
     self.frame = rect;
 }
 
-- (void)setTintColor:(UIColor *)color {
-    self.tint = [UIColor colorWithHue:color.hue saturation:color.saturation+0.15 brightness:color.brightness alpha:1];
+- (void)setTint:(UIColor *)color {
+    tint = color;
     colorLayer.borderColor = tint.CGColor;
     [self setTitleColor:tint forState:UIControlStateNormal];
+    [self setNeedsDisplay];
+}
+
+- (void)setTitle:(NSString *)newtitle andConfirm:(NSString *)newConfirm {
+    self.title = [newtitle retain];
+    self.confirm = [newConfirm retain];
+    if (!colorLayer) {
+        [self setupLayers];
+    }
+    
+    CGSize size = [title sizeWithAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:kFontSize]}];
+    CGRect r = self.frame;
+    r.size.height = kHeight;
+    r.size.width = size.width+kPadding;
+    self.frame = r;
+    
+    [self setTitle:title forState:UIControlStateNormal];
+    [self setTitleColor:self.tint forState:UIControlStateNormal];
+    
     [self setNeedsDisplay];
 }
 
@@ -279,7 +311,7 @@
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-
+    
     if (!disabled && !confirmed && self.userInteractionEnabled) {
         [self darken];
     }
@@ -287,7 +319,7 @@
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-  
+    
     if (!disabled && !confirmed && self.userInteractionEnabled) {
         if (!CGRectContainsPoint(self.frame, [[touches anyObject] locationInView:self.superview])) { //TouchUpOutside (Cancelled Touch)
             [self lighten];
@@ -299,13 +331,13 @@
             cancelOverlay = nil;
             [super touchesEnded:touches withEvent:event];
         } else {
-            [self lighten];		
-            self.selected = YES;            
+            [self lighten];
+            self.selected = YES;
             if (!cancelOverlay) {
                 cancelOverlay = [UIButton buttonWithType:UIButtonTypeCustom];
                 [cancelOverlay setFrame:CGRectMake(0, 0, 1024, 1024)];
                 [cancelOverlay addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchDown];
-                [self.superview addSubview:cancelOverlay];                
+                [self.superview addSubview:cancelOverlay];
             }
             [self.superview bringSubviewToFront:self];
         }
