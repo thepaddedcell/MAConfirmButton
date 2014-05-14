@@ -129,7 +129,7 @@
             [self setTitle:disabled forState:UIControlStateNormal];
             [self setTitleColor:self.tint forState:UIControlStateNormal];
             size = [disabled sizeWithAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:kFontSize]}];
-        } else if (selected) {
+        } else if (buttonSelected) {
             [self setTitle:confirm forState:UIControlStateNormal];
             size = [confirm sizeWithAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:kFontSize]}];
         } else {
@@ -202,9 +202,9 @@
             colorAnimation.toValue = (id)[UIColor colorWithWhite:0.85 alpha:1].CGColor;
             titleColor = [UIColor colorWithWhite:0.85 alpha:1];
         } else {
-            colorAnimation.fromValue = selected ? (id)tint.CGColor : (id)greenColor.CGColor;
-            colorAnimation.toValue = selected ? (id)greenColor.CGColor : (id)tint.CGColor;
-            titleColor = selected ? greenColor : self.tint;
+            colorAnimation.fromValue = buttonSelected ? (id)tint.CGColor : (id)greenColor.CGColor;
+            colorAnimation.toValue = buttonSelected ? (id)greenColor.CGColor : (id)tint.CGColor;
+            titleColor = buttonSelected ? greenColor : self.tint;
         }
         [self setTitleColor:titleColor forState:UIControlStateNormal];
         
@@ -249,8 +249,8 @@
     
 }
 
-- (void)setSelected:(BOOL)s {
-    selected = s;
+- (void)setButtonSelected:(BOOL)s {
+    buttonSelected = s;
     [self toggle];
 }
 
@@ -322,7 +322,7 @@
         if (!CGRectContainsPoint(self.frame, [[touches anyObject] locationInView:self.superview])) { //TouchUpOutside (Cancelled Touch)
             [self lighten];
             [super touchesCancelled:touches withEvent:event];
-        } else if (selected) {
+        } else if (buttonSelected) {
             [self lighten];
             confirmed = YES;
             [cancelOverlay removeFromSuperview];
@@ -330,7 +330,7 @@
             [super touchesEnded:touches withEvent:event];
         } else {
             [self lighten];
-            self.selected = YES;
+            buttonSelected = YES;
             if (!cancelOverlay) {
                 cancelOverlay = [UIButton buttonWithType:UIButtonTypeCustom];
                 [cancelOverlay setFrame:CGRectMake(0, 0, 1024, 1024)];
@@ -348,8 +348,8 @@
         [cancelOverlay removeFromSuperview];
         cancelOverlay = nil;	
     }	
-    self.selected = NO;
-    self.confirmed = NO;
+    buttonSelected = NO;
+    confirmed = NO;
     [self toggle];
 }
 

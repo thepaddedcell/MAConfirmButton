@@ -20,7 +20,7 @@ typedef enum {
 @interface MAConfirmButton : UIButton {
 
 @private
-	BOOL selected;
+	BOOL buttonSelected;
 	BOOL confirmed;
 	CALayer *colorLayer;
 	CALayer *darkenLayer;
@@ -40,5 +40,6 @@ typedef enum {
 - (BOOL)isDisabled;
 - (void)setConfirmed:(BOOL)isConfirmed;
 - (void)cancel;
+- (void)setButtonSelected:(BOOL)newButtonSelected;
 
 @end
