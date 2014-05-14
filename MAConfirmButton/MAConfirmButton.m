@@ -351,5 +351,8 @@
     self.selected = NO;
 }
 
+- (BOOL)isDisabled {
+    return disabled;
+}
 
 @end
