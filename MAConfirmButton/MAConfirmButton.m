@@ -331,6 +331,7 @@
         } else {
             [self lighten];
             buttonSelected = YES;
+            [self toggle];
             if (!cancelOverlay) {
                 cancelOverlay = [UIButton buttonWithType:UIButtonTypeCustom];
                 [cancelOverlay setFrame:CGRectMake(0, 0, 1024, 1024)];
