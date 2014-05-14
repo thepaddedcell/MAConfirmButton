@@ -57,9 +57,9 @@
         toggleAnimation = MAConfirmButtonToggleAnimationLeft;
         
         self.layer.needsDisplayOnBoundsChange = YES;
-        self.tint = [UIColor colorWithWhite:0.85 alpha:1];
+        tint = [UIColor colorWithWhite:0.85 alpha:1];
         
-        CGSize size = [title sizeWithAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:kFontSize]}];
+        CGSize size = [disabled sizeWithAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:kFontSize]}];
         CGRect r = self.frame;
         r.size.height = kHeight;
         r.size.width = size.width+kPadding;
@@ -236,8 +236,6 @@
 }
 
 - (void)setupLayers {
-    [colorLayer removeFromSuperlayer];
-    
     colorLayer = [CALayer layer];
     colorLayer.backgroundColor = [[UIColor clearColor] CGColor];
     colorLayer.frame = CGRectMake(0, 1, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame)-2);
