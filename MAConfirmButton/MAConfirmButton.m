@@ -355,4 +355,10 @@
     return disabled;
 }
 
+- (void)setConfirmed:(BOOL)isConfirmed
+{
+    confirmed = isConfirmed;
+    [self toggle];
+}
+
 @end

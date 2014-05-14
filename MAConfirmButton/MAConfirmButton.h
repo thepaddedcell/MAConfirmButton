@@ -38,5 +38,6 @@ typedef enum {
 - (void)setTint:(UIColor *)color;
 - (void)setTitle:(NSString *)title andConfirm:(NSString*)confirm;
 - (BOOL)isDisabled;
+- (void)setConfirmed:(BOOL)isConfirmed;
 
 @end
