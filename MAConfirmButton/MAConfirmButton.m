@@ -14,10 +14,10 @@
 
 @interface MAConfirmButton ()
 
-@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *maTitle;
 @property (nonatomic, copy) NSString *confirm;
 @property (nonatomic, copy) NSString *disabled;
-@property (nonatomic, retain) UIColor *tint;
+@property (nonatomic, retain) UIColor *maTint;
 
 - (void)toggle;
 - (void)setupLayers;
@@ -29,13 +29,13 @@
 
 @implementation MAConfirmButton
 
-@synthesize title, confirm, disabled, tint, toggleAnimation;
+@synthesize maTitle, confirm, disabled, maTint, toggleAnimation;
 
 - (void)dealloc {
-    [title release];
+    [maTitle release];
     [confirm release];
     [disabled release];
-    [tint release];
+    [maTint release];
     [super dealloc];
 }
 
@@ -57,7 +57,7 @@
         toggleAnimation = MAConfirmButtonToggleAnimationLeft;
         
         self.layer.needsDisplayOnBoundsChange = YES;
-        tint = [UIColor colorWithWhite:0.85 alpha:1];
+        self.maTint = [UIColor colorWithWhite:0.85 alpha:1];
         
         CGSize size = [disabled sizeWithAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:kFontSize]}];
         CGRect r = self.frame;
@@ -66,7 +66,7 @@
         self.frame = r;
         
         [self setTitle:disabled forState:UIControlStateNormal];
-        [self setTitleColor:self.tint forState:UIControlStateNormal];
+        [self setTitleColor:self.maTint forState:UIControlStateNormal];
         
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         self.titleLabel.backgroundColor = [UIColor clearColor];
@@ -92,22 +92,22 @@
 - (id)initWithTitle:(NSString *)titleString confirm:(NSString *)confirmString {
     self = [super initWithFrame:CGRectZero];
     if (self != nil) {
-        self.title = [titleString retain];
+        self.maTitle = [titleString retain];
         self.confirm = [confirmString retain];
         
         toggleAnimation = MAConfirmButtonToggleAnimationLeft;
-        tint = [UIColor colorWithRed:0.220 green:0.357 blue:0.608 alpha:1];
+        self.maTint = [UIColor colorWithRed:0.220 green:0.357 blue:0.608 alpha:1];
         
         self.layer.needsDisplayOnBoundsChange = YES;
         
-        CGSize size = [title sizeWithAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:kFontSize]}];
+        CGSize size = [maTitle sizeWithAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:kFontSize]}];
         CGRect r = self.frame;
         r.size.height = kHeight;
         r.size.width = size.width+kPadding;
         self.frame = r;
         
-        [self setTitle:title forState:UIControlStateNormal];
-        [self setTitleColor:self.tint forState:UIControlStateNormal];
+        [self setTitle:maTitle forState:UIControlStateNormal];
+        [self setTitleColor:self.maTint forState:UIControlStateNormal];
         
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         self.titleLabel.backgroundColor = [UIColor clearColor];
@@ -127,14 +127,14 @@
         
         if (disabled) {
             [self setTitle:disabled forState:UIControlStateNormal];
-            [self setTitleColor:self.tint forState:UIControlStateNormal];
+            [self setTitleColor:self.maTint forState:UIControlStateNormal];
             size = [disabled sizeWithAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:kFontSize]}];
         } else if (buttonSelected) {
             [self setTitle:confirm forState:UIControlStateNormal];
             size = [confirm sizeWithAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:kFontSize]}];
         } else {
-            [self setTitle:title forState:UIControlStateNormal];
-            size = [title sizeWithAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:kFontSize]}];
+            [self setTitle:maTitle forState:UIControlStateNormal];
+            size = [maTitle sizeWithAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:kFontSize]}];
         }
         
         size.width += kPadding;
@@ -202,9 +202,9 @@
             colorAnimation.toValue = (id)[UIColor colorWithWhite:0.85 alpha:1].CGColor;
             titleColor = [UIColor colorWithWhite:0.85 alpha:1];
         } else {
-            colorAnimation.fromValue = buttonSelected ? (id)tint.CGColor : (id)greenColor.CGColor;
-            colorAnimation.toValue = buttonSelected ? (id)greenColor.CGColor : (id)tint.CGColor;
-            titleColor = buttonSelected ? greenColor : self.tint;
+            colorAnimation.fromValue = buttonSelected ? (id)maTint.CGColor : (id)greenColor.CGColor;
+            colorAnimation.toValue = buttonSelected ? (id)greenColor.CGColor : (id)maTint.CGColor;
+            titleColor = buttonSelected ? greenColor : self.maTint;
         }
         [self setTitleColor:titleColor forState:UIControlStateNormal];
         
@@ -239,7 +239,7 @@
     colorLayer = [CALayer layer];
     colorLayer.backgroundColor = [[UIColor clearColor] CGColor];
     colorLayer.frame = CGRectMake(0, 1, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame)-2);
-    colorLayer.borderColor = tint.CGColor;
+    colorLayer.borderColor = maTint.CGColor;
     colorLayer.borderWidth = 1.0;
     colorLayer.cornerRadius = 4.0;
     colorLayer.needsDisplayOnBoundsChange = YES;
@@ -266,28 +266,31 @@
     self.frame = rect;
 }
 
-- (void)setTint:(UIColor *)color {
-    tint = color;
-    colorLayer.borderColor = tint.CGColor;
-    [self setTitleColor:tint forState:UIControlStateNormal];
-    [self setNeedsDisplay];
+- (void)setMaTint:(UIColor *)color {
+    if (maTint != color) {
+        [maTint release];
+        maTint = [color retain];
+        colorLayer.borderColor = maTint.CGColor;
+        [self setTitleColor:maTint forState:UIControlStateNormal];
+        [self setNeedsDisplay];
+    }
 }
 
 - (void)setTitle:(NSString *)newtitle andConfirm:(NSString *)newConfirm {
-    self.title = [newtitle retain];
+    self.maTitle = [newtitle retain];
     self.confirm = [newConfirm retain];
     if (!colorLayer) {
         [self setupLayers];
     }
     
-    CGSize size = [title sizeWithAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:kFontSize]}];
+    CGSize size = [maTitle sizeWithAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:kFontSize]}];
     CGRect r = self.frame;
     r.size.height = kHeight;
     r.size.width = size.width+kPadding;
     self.frame = r;
     
-    [self setTitle:title forState:UIControlStateNormal];
-    [self setTitleColor:self.tint forState:UIControlStateNormal];
+    [self setTitle:maTitle forState:UIControlStateNormal];
+    [self setTitleColor:self.maTint forState:UIControlStateNormal];
     
     [self setNeedsDisplay];
 }
