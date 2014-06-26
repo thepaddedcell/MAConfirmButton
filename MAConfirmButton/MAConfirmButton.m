@@ -352,14 +352,17 @@
         [cancelOverlay removeFromSuperview];
         cancelOverlay = nil;	
     }
-    disabled = nil;
-    buttonSelected = NO;
-    confirmed = NO;
-    [self toggle];
+    
+    if (disabled != nil || buttonSelected != NO || confirmed != NO) {
+        disabled = nil;
+        buttonSelected = NO;
+        confirmed = NO;
+        [self toggle];
+    }
 }
 
 - (BOOL)isDisabled {
-    return disabled;
+    return disabled == nil;
 }
 
 - (void)setConfirmed:(BOOL)isConfirmed
