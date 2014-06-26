@@ -59,7 +59,7 @@
     [toggleRightButton setAnchor:CGPointMake(200, 200)];
     [self.view addSubview:toggleRightButton];
     
-    MAConfirmButton* button = [[MAConfirmButton alloc] initWithFrame:CGRectMake(100, 250, 110, 110)];
+    MAConfirmButton* button = [[MAConfirmButton alloc] initWithFrame:CGRectMake(100, 250, 70, 30)];
     [button addTarget:self action:@selector(confirmAction:) forControlEvents:UIControlEventTouchUpInside];
     [button setTitle:@"Testing" andConfirm:@"Mode"];
     [button setMaTint:[UIColor orangeColor]];
